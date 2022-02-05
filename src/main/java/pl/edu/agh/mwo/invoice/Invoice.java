@@ -3,16 +3,13 @@ package pl.edu.agh.mwo.invoice;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private Collection<Product> products;
-
-    public Invoice() {
-        this.products = new ArrayList<>();
-    }
-
+    private List<Product> products = new ArrayList<>();
+    
     public void addProduct(Product product) {
         // TODO: implement
         products.add(product);
