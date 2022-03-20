@@ -1,18 +1,21 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private List<Product> products = new ArrayList<>();
+
+    private Map<Product, Integer> products= new HashMap<>();
     
     public void addProduct(Product product) {
         // TODO: implement
-        products.add(product);
+        if (!products.containsKey(product)){
+            products.put(product, 1);
+        } else {
+            products.put(product, products.get(product) + 1);
+        }
     }
 
     public void addProduct(Product product, Integer quantity) {
@@ -21,29 +24,45 @@ public class Invoice {
             throw new IllegalArgumentException();
 
         for (int i = 0; i < quantity; i++){
-            products.add(product);
+            addProduct(product);
         }
 
     }
 
     public BigDecimal getSubtotal() {
 
-        return products.stream()
-                .map(Product::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal subtotal = BigDecimal.ZERO;
+
+        for (Product product : products.keySet()){
+
+            BigDecimal price = product.getPrice();
+            BigDecimal quantity = BigDecimal.valueOf(products.get(product));
+
+            subtotal = subtotal.add(price.multiply(quantity));
+        }
+
+        return subtotal;
+
     }
 
     public BigDecimal getTax() {
 
-        return products.stream()
-                .map(Product::getTax)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal taxTotal = BigDecimal.ZERO;
+
+        for (Product product : products.keySet()){
+
+            BigDecimal tax = product.getTax();
+            BigDecimal quantity = BigDecimal.valueOf(products.get(product));
+
+            taxTotal = taxTotal.add(tax.multiply(quantity));
+        }
+
+        return taxTotal;
     }
 
     public BigDecimal getTotal() {
 
-        return products.stream()
-                .map(Product::getPriceWithTax)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return getSubtotal().add(getTax());
+
     }
 }
