@@ -17,5 +17,6 @@ jobs:
     name: Checkstyle
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Checkout
         run: mvn checkstyle:check
