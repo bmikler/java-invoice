@@ -11,10 +11,12 @@ public abstract class Product {
 
     protected Product(String name, BigDecimal price, BigDecimal tax) {
         if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Product name cannot be null and cannot be empty");
+            throw new IllegalArgumentException(
+                    "Product name cannot be null and cannot be empty");
         }
         if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Price cannot be null and price must be greater than 0");
+            throw new IllegalArgumentException(
+                    "Price cannot be null and price must be greater than 0");
         }
 
         this.name = name;

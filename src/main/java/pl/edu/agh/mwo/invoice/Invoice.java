@@ -3,16 +3,19 @@ package pl.edu.agh.mwo.invoice;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
 
-    private Map<Product, Integer> products= new HashMap<>();
+    private Map<Product, Integer> products = new HashMap<>();
     
     public void addProduct(Product product) {
         // TODO: implement
-        if (!products.containsKey(product)){
+        if (product == null) {
+            throw new IllegalArgumentException("Product can`t be null");
+        }
+
+        if (!products.containsKey(product)) {
             products.put(product, 1);
         } else {
             products.put(product, products.get(product) + 1);
@@ -21,18 +24,19 @@ public class Invoice {
 
     public void addProduct(Product product, Integer quantity) {
         // TODO: implement
-        if (quantity <= 0)
+        if (quantity <= 0) {
             throw new IllegalArgumentException();
+        }
 
         products.put(product, quantity);
 
     }
 
-    public BigDecimal getSubtotal() {
+    public BigDecimal getNetTotal() {
 
         BigDecimal subtotal = BigDecimal.ZERO;
 
-        for (Product product : products.keySet()){
+        for (Product product : products.keySet()) {
 
             BigDecimal price = product.getPrice();
             BigDecimal quantity = BigDecimal.valueOf(products.get(product));
@@ -44,11 +48,11 @@ public class Invoice {
 
     }
 
-    public BigDecimal getTax() {
+    public BigDecimal getTaxTotal() {
 
         BigDecimal taxTotal = BigDecimal.ZERO;
 
-        for (Product product : products.keySet()){
+        for (Product product : products.keySet()) {
 
             BigDecimal tax = product.getTax();
             BigDecimal quantity = BigDecimal.valueOf(products.get(product));
@@ -59,9 +63,9 @@ public class Invoice {
         return taxTotal;
     }
 
-    public BigDecimal getTotal() {
+    public BigDecimal getGrossTotal() {
 
-        return getSubtotal().add(getTax());
+        return getNetTotal().add(getTaxTotal());
 
     }
 }
