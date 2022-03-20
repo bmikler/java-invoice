@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.agh.mwo.invoice.Invoice;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
@@ -19,10 +18,12 @@ import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
 
 public class InvoiceTest {
     private Invoice invoice;
+    private static long actualInvoiceNumber = 0;
 
     @Before
     public void createEmptyInvoiceForTheTest() {
         invoice = new Invoice();
+        actualInvoiceNumber++;
     }
 
     @Test
@@ -149,8 +150,10 @@ public class InvoiceTest {
     public void getListToPrintEmpty() {
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
+        expected.add("Invoice no. " + actualInvoiceNumber);
+        expected.add("Number of elements: 0");
 
-        Assert.assertEquals(listToPrint, expected);
+        Assert.assertEquals(expected, listToPrint);
     }
 
     @Test
@@ -159,9 +162,11 @@ public class InvoiceTest {
 
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
+        expected.add("Invoice no. " + actualInvoiceNumber);
         expected.add("Chleb; 2; 5");
+        expected.add("Number of elements: 1");
 
-        Assert.assertEquals(listToPrint, expected);
+        Assert.assertEquals(expected, listToPrint);
 
     }
 
@@ -174,8 +179,10 @@ public class InvoiceTest {
 
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
+        expected.add("Invoice no. " + actualInvoiceNumber);
         expected.add("Kubek; 2; 5");
         expected.add("Kozi Serek; 3; 10.80");
+        expected.add("Number of elements: 2");
 
         Assert.assertEquals(expected, listToPrint);
 
