@@ -1,7 +1,8 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
@@ -23,9 +24,7 @@ public class Invoice {
         if (quantity <= 0)
             throw new IllegalArgumentException();
 
-        for (int i = 0; i < quantity; i++){
-            addProduct(product);
-        }
+        products.put(product, quantity);
 
     }
 

@@ -1,0 +1,25 @@
+name: CI for Java Invoice
+on: [push]
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [8, 13 ,15]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.version }}
+          distribution: 'adopt'
+      - name: Test
+        run: mvn test
+  checkstyle-job:
+    name: Checkstyle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout
+        run: mvn checkstyle:check
