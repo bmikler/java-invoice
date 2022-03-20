@@ -85,12 +85,16 @@ public class Invoice {
     public List<String> getListToPrint() {
         List<String> printList = new ArrayList<>();
 
+        printList.add("Invoice no. " + invoiceNumber);
+
         for (Product product : products.keySet()) {
             String line = product.getName() + "; "
                     + products.get(product) + "; "
                     + product.getPriceWithTax();
             printList.add(line);
         }
+
+        printList.add("Number of elements: " + (printList.size() - 1));
 
         return printList;
     }

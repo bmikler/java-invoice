@@ -143,6 +143,7 @@ public class InvoiceTest {
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
         expected.add("Chleb; 2; 5");
+        expected.add("Number of elements: 1");
 
         Assert.assertEquals(listToPrint, expected);
 
@@ -159,6 +160,7 @@ public class InvoiceTest {
         List<String> expected = new ArrayList<>();
         expected.add("Kubek; 2; 5");
         expected.add("Kozi Serek; 3; 10.80");
+        expected.add("Number of elements: 2");
 
         Assert.assertEquals(listToPrint, expected);
 
