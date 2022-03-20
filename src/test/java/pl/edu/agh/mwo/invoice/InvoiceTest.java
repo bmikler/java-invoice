@@ -174,10 +174,10 @@ public class InvoiceTest {
 
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
-        expected.add("Kubek; 2; 5");
         expected.add("Kozi Serek; 3; 10.80");
+        expected.add("Kubek; 2; 5");
 
-        Assert.assertEquals(listToPrint, expected);
+        Assert.assertEquals(expected, listToPrint);
 
     }
 
