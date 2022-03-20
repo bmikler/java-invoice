@@ -2,7 +2,9 @@ package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -129,6 +131,21 @@ public class InvoiceTest {
     }
 
     @Test
+    public void testAddingSameProductTwoTimes() {
+
+       Product product = new DairyProduct("Zsiadle mleko", new BigDecimal("5.55"));
+
+       invoice.addProduct(product);
+       invoice.addProduct(product);
+
+        Map<Product, Integer> actual = invoice.getProducts();
+        Map<Product, Integer> expected = new HashMap<>();
+        expected.put(product, 2);
+
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
     public void getListToPrintEmpty() {
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
@@ -143,7 +160,6 @@ public class InvoiceTest {
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
         expected.add("Chleb; 2; 5");
-        expected.add("Number of elements: 1");
 
         Assert.assertEquals(listToPrint, expected);
 
@@ -160,7 +176,6 @@ public class InvoiceTest {
         List<String> expected = new ArrayList<>();
         expected.add("Kubek; 2; 5");
         expected.add("Kozi Serek; 3; 10.80");
-        expected.add("Number of elements: 2");
 
         Assert.assertEquals(listToPrint, expected);
 
