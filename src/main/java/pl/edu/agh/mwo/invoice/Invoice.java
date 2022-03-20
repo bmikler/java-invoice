@@ -1,14 +1,27 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
+    private static long actualNumber = 0;
 
+    private long invoiceNumber;
     private Map<Product, Integer> products = new HashMap<>();
-    
+
+    public Invoice() {
+        actualNumber++;
+        this.invoiceNumber = actualNumber;
+    }
+
+    public long getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
     public void addProduct(Product product) {
         // TODO: implement
         if (product == null) {
@@ -68,4 +81,18 @@ public class Invoice {
         return getNetTotal().add(getTaxTotal());
 
     }
+
+    public List<String> getListToPrint() {
+        List<String> printList = new ArrayList<>();
+
+        for (Product product : products.keySet()) {
+            String line = product.getName() + "; "
+                    + products.get(product) + "; "
+                    + product.getPriceWithTax();
+            printList.add(line);
+        }
+
+        return printList;
+    }
+
 }

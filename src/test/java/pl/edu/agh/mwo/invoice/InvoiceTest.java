@@ -1,6 +1,8 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -125,4 +127,41 @@ public class InvoiceTest {
     public void testAddingNullProduct() {
         invoice.addProduct(null);
     }
+
+    @Test
+    public void getListToPrintEmpty() {
+        List<String> listToPrint = invoice.getListToPrint();
+        List<String> expected = new ArrayList<>();
+
+        Assert.assertEquals(listToPrint, expected);
+    }
+
+    @Test
+    public void getListToPrintWithOneElement() {
+        invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+
+        List<String> listToPrint = invoice.getListToPrint();
+        List<String> expected = new ArrayList<>();
+        expected.add("Chleb; 2; 5");
+
+        Assert.assertEquals(listToPrint, expected);
+
+    }
+
+    @Test
+    public void getListToPrintWithMultiElement() {
+        // 2x kubek - price: 10
+        invoice.addProduct(new TaxFreeProduct("Kubek", new BigDecimal("5")), 2);
+        // 3x kozi serek - price: 30
+        invoice.addProduct(new DairyProduct("Kozi Serek", new BigDecimal("10")), 3);
+
+        List<String> listToPrint = invoice.getListToPrint();
+        List<String> expected = new ArrayList<>();
+        expected.add("Kubek; 2; 5");
+        expected.add("Kozi Serek; 3; 10.80");
+
+        Assert.assertEquals(listToPrint, expected);
+
+    }
+
 }
