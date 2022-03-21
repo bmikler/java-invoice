@@ -171,10 +171,8 @@ public class InvoiceTest {
     }
 
     @Test
-    public void getListToPrintWithMultiElement() {
-        // 2x kubek - price: 10
+    public void getListToPrintWithMultiElements() {
         invoice.addProduct(new TaxFreeProduct("Kubek", new BigDecimal("5")), 2);
-        // 3x kozi serek - price: 30
         invoice.addProduct(new DairyProduct("Kozi Serek", new BigDecimal("10")), 3);
 
         List<String> listToPrint = invoice.getListToPrint();

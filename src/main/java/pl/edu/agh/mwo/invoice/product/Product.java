@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 
 public abstract class Product {
     private final String name;
-
     private final BigDecimal price;
-
     private final BigDecimal taxPercent;
 
     protected Product(String name, BigDecimal price, BigDecimal tax) {
@@ -41,7 +39,7 @@ public abstract class Product {
     }
 
     public BigDecimal getPriceWithTax() {
-        return price.multiply(taxPercent).add(price);
+        return getPrice().add(getTax());
 
     }
 }
