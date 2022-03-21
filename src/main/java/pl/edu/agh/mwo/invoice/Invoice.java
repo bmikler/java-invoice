@@ -9,18 +9,12 @@ import java.util.Map;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    private static long actualNumber = 0;
 
-    private long invoiceNumber;
-    private Map<Product, Integer> products = new LinkedHashMap<>();
+    private final long invoiceNumber;
+    private final Map<Product, Integer> products = new LinkedHashMap<>();
 
-    public Invoice() {
-        actualNumber++;
-        this.invoiceNumber = actualNumber;
-    }
-
-    public long getInvoiceNumber() {
-        return invoiceNumber;
+    public Invoice(InvoiceNumberGenerator generator) {
+        this.invoiceNumber = generator.getNextNumber();
     }
 
     public Map<Product, Integer> getProducts() {
@@ -33,9 +27,9 @@ public class Invoice {
         }
 
         if (!products.containsKey(product)) {
-            products.put(product, 1);
+            addProduct(product, 1);
         } else {
-            products.put(product, products.get(product) + 1);
+            addProduct(product, products.get(product) + 1);
         }
     }
 
@@ -94,12 +88,13 @@ public class Invoice {
             String line = product.getName() + "; "
                     + products.get(product) + "; "
                     + product.getPriceWithTax();
+
             printList.add(line);
         }
 
         printList.add("Number of elements: " + products.size());
 
-        return printList;
+        return Collections.unmodifiableList(printList);
     }
 
 }

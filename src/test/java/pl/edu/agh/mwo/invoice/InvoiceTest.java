@@ -11,19 +11,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.mockito.Mockito;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
 import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
 
+import static org.mockito.Mockito.*;
+
 public class InvoiceTest {
     private Invoice invoice;
-    private static long actualInvoiceNumber = 0;
 
     @Before
     public void createEmptyInvoiceForTheTest() {
-        invoice = new Invoice();
-        actualInvoiceNumber++;
+        InvoiceNumberGenerator generator = mock(StaticInvoiceNumberGenerator.class);
+        when(generator.getNextNumber()).thenReturn(1L);
+        invoice = new Invoice(generator);
     }
 
     @Test
@@ -150,7 +153,7 @@ public class InvoiceTest {
     public void getListToPrintEmpty() {
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
-        expected.add("Invoice no. " + actualInvoiceNumber);
+        expected.add("Invoice no. 1");
         expected.add("Number of elements: 0");
 
         Assert.assertEquals(expected, listToPrint);
@@ -162,7 +165,7 @@ public class InvoiceTest {
 
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
-        expected.add("Invoice no. " + actualInvoiceNumber);
+        expected.add("Invoice no. 1");
         expected.add("Chleb; 2; 5");
         expected.add("Number of elements: 1");
 
@@ -177,7 +180,7 @@ public class InvoiceTest {
 
         List<String> listToPrint = invoice.getListToPrint();
         List<String> expected = new ArrayList<>();
-        expected.add("Invoice no. " + actualInvoiceNumber);
+        expected.add("Invoice no. 1");
         expected.add("Kubek; 2; 5");
         expected.add("Kozi Serek; 3; 10.80");
         expected.add("Number of elements: 2");
